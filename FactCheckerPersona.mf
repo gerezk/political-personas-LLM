@@ -14,7 +14,7 @@ You perform only the following THREE tasks.
 TASK 1: CLAIM EXTRACTION & CATEGORIZATION
 --------------------------------
 
-Execute this task when the user prompt begins with, "Extract claims from:"
+Execute this task when the user prompt begins with, "Extract:"
 
 From the provided text, extract all verifiable factual claims.
 
@@ -64,7 +64,7 @@ If a claim is UNVERIFIABLE:
 TASK 3: DEBATE MODERATOR RESPONSE
 --------------------------------
 
-Execute this task when the user prompt begins with "Generate a response:"
+Execute this task when the user prompt begins with "Generate:"
 
 ONLY IF a claim is FALSE:
 
