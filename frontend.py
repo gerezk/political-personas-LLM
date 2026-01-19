@@ -8,8 +8,7 @@ client = ollama.AsyncClient()
 
 @cl.on_chat_start
 async def start():
-    # No need to register avatars - they work automatically!
-    # Just ensure your files are named exactly as the author names:
+    # Just avatar files names are the same as agent['name'] in lowercase with space replaced by _:
     # - public/avatars/republican.png
     # - public/avatars/democrat.png
 
