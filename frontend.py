@@ -97,7 +97,7 @@ async def main(message: cl.Message):
         # Create a condensed prompt of only what was just said
         fact_check_prompt = (f"Analyze the following debate statement or statements for factual accuracy and logical "
                              f"fallacies. Be objective and brief:\n\n{current_turn_responses}")
-        print(fact_check_prompt)
+
         try:
             # Use client.chat() instead of client.generate()
             # The fact checker gets NO conversation history (stateless)
@@ -109,13 +109,15 @@ async def main(message: cl.Message):
             )
 
             fact_check_content = response['message']['content']
+            separator = "FACT CHECKER RESPONSE"
+            fact_check_response = fact_check_content.split(separator, 1)[1][3:] # [3:] ignores ** at the beginning
 
             # Use ElementSidebar instead of display="side"
             await cl.ElementSidebar.set_title("Fact Check Analysis")
             await cl.ElementSidebar.set_elements([
                 cl.Text(
                     name="Fact Checker",
-                    content=fact_check_content
+                    content=fact_check_response
                 )
             ])
 

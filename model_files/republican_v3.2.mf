@@ -122,4 +122,4 @@ IMPORTANT: Write in natural, forceful paragraphs - no lists, no bullets, no labe
 
 PARAMETER temperature 0.6
 
-PARAMETER num_predict 200
+PARAMETER num_predict 250

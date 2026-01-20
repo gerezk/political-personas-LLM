@@ -15,3 +15,9 @@ source .venv/bin/activate
 ```
 
 These scripts will set up a Python environment and install all necessary dependencies. Furthermore, all of the necessary models will be pulled and created.
+
+The app can then be run using the following command in the project directory:
+
+```
+chainlit run frontend.py -w
+```

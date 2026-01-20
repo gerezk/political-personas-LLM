@@ -14,6 +14,9 @@ if (-not (Get-Command "ollama" -ErrorAction SilentlyContinue)) {
 }
 
 Write-Host "Pulling and Creating Ollama models..."
-ollama pull HammerAI/mistral-nemo-uncensored:latest   # Foundation model for personas
+ollama pull HammerAI/mistral-nemo-uncensored:latest # Foundation model for political personas
+ollama pull llama3.1:8b # Foundation model for fact checker persona
+
 ollama create dem-model -f model_files/democrat_v3.2.mf
 ollama create rep-model -f model_files/republican_v3.2.mf
+ollama create fact-checker -f model_files/fact-checker.mf
