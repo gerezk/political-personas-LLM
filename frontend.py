@@ -52,7 +52,6 @@ async def main(message: cl.Message):
 
         # If this is NOT the first agent, nudge the model
         current_context = list(transcript)
-        print(current_context)
         if i > 0:
             current_context.append({
                 "role": "user",
