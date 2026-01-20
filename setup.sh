@@ -2,7 +2,7 @@
 set -e
 
 echo "Setting up Python environment..."
-python -m venv .venv
+python3.12 -m venv .venv
 
 source .venv/bin/activate
 

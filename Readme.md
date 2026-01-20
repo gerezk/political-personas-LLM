@@ -1,6 +1,6 @@
 # Setup
 
-To setup the project, you can use one of the following two scripts (depending on your operating system):
+To setup the project, you can use one of the two scripts below (depending on your operating system). You must have Python 3.12 installed.
 
 **Windows**
 
@@ -8,6 +8,9 @@ To setup the project, you can use one of the following two scripts (depending on
 
 **Linux**
 
-`./setup.sh`
+```
+chmod +x ./setup.sh
+./setup.sh
+```
 
-These scripts will setup a Python environment and install all necessary dependencies. Furthermore, all of the necessary models will be pulled and created.
+These scripts will set up a Python environment and install all necessary dependencies. Furthermore, all of the necessary models will be pulled and created.
