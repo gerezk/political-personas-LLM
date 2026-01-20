@@ -27,14 +27,16 @@ async def start():
 
     await cl.Message(content="Welcome to the debate floor! History is being recorded.").send()
 
-
 @cl.on_message
 async def main(message: cl.Message):
+    # Clear the sidebar from the previous turn
+    await cl.ElementSidebar.set_elements([])
+
     transcript = cl.user_session.get("transcript")
     settings = cl.user_session.get("settings")
     persona_choice = settings.get("Persona")
 
-    # Add user message to history
+    # 1. Add user message to history
     transcript.append({"role": "user", "content": message.content})
 
     agents_to_run = []
@@ -43,7 +45,10 @@ async def main(message: cl.Message):
     if persona_choice in ["Republican", "Both"]:
         agents_to_run.append({"name": "Republican", "model": "rep-model:latest"})
 
-    # Sequential execution of models
+    # Store the current turn's responses here to pass to the Fact Checker
+    current_turn_responses = []
+
+    # 2. Sequential execution of models
     for i, agent in enumerate(agents_to_run):
         # The author parameter will automatically use the matching avatar
         # from public/avatars/{author}.png
@@ -58,7 +63,6 @@ async def main(message: cl.Message):
                 "content": message.content,
             })
 
-        print(current_context)
         full_response = ""
         try:
             stream = await client.chat(
@@ -74,6 +78,9 @@ async def main(message: cl.Message):
                     full_response += token
                     await agent_msg.stream_token(token)
 
+            # pass current response to fact-checker
+            current_turn_responses.append(full_response)
+
             # Update message with final content
             if not full_response:
                 agent_msg.content = "*Chose to remain silent.*"
@@ -85,8 +92,37 @@ async def main(message: cl.Message):
         except Exception as e:
             await cl.Message(content=f"Error with {agent['name']}: {str(e)}", author="System").send()
 
-    cl.user_session.set("transcript", transcript)
+    # 3. SIDE PANEL: Fact Checker (Stateless)
+    if current_turn_responses:
+        # Create a condensed prompt of only what was just said
+        fact_check_prompt = (f"Analyze the following debate statement or statements for factual accuracy and logical "
+                             f"fallacies. Be objective and brief:\n\n{current_turn_responses}")
+        print(fact_check_prompt)
+        try:
+            # Use client.chat() instead of client.generate()
+            # The fact checker gets NO conversation history (stateless)
+            response = await client.chat(
+                model='fact-checker:latest',
+                messages=[{"role": "user", "content": fact_check_prompt}],
+                stream=False,
+                keep_alive=0
+            )
 
+            fact_check_content = response['message']['content']
+
+            # Use ElementSidebar instead of display="side"
+            await cl.ElementSidebar.set_title("Fact Check Analysis")
+            await cl.ElementSidebar.set_elements([
+                cl.Text(
+                    name="Fact Checker",
+                    content=fact_check_content
+                )
+            ])
+
+        except Exception as e:
+            print(f"Fact Checker Error: {e}")
+
+    cl.user_session.set("transcript", transcript)
 
 @cl.on_settings_update
 async def setup_agent(settings):
