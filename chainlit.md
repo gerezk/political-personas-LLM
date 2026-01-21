@@ -6,3 +6,5 @@ Using the app is simple:
 1. Select if you want to prompt the Republican, Democrat, or both (default) using the ⚙️ icon.
 2. Enter your prompt.
 3. Wait for a response from the selected personas and the fact-checker. The latter's response will appear on the right-side in its own sidebar.
+
+If there are any issues, try clearing cached files on your browser and restarting the app.

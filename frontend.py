@@ -109,8 +109,14 @@ async def main(message: cl.Message):
             )
 
             fact_check_content = response['message']['content']
-            separator = "FACT CHECKER RESPONSE"
+            print(fact_check_content)
+            separators = ["FACT CHECKER RESPONSE", "Fact Checker Response"]
+            if separators[0] in fact_check_content:
+                separator = separators[0]
+            else:
+                separator = separators[1]
             fact_check_response = fact_check_content.split(separator, 1)[1][3:] # [3:] ignores ** at the beginning
+            fact_check_response = fact_check_response.replace('"','') # strip " from beginning and end of content
 
             # Use ElementSidebar instead of display="side"
             await cl.ElementSidebar.set_title("Fact Check Analysis")
