@@ -133,4 +133,4 @@ IMPORTANT: Write in natural, flowing paragraphs - no lists, no bullets, no label
 
 PARAMETER temperature 0.6
 
-PARAMETER num_predict 200
+PARAMETER num_predict 300
